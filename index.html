@@ -1,49 +1,156 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+    <title>reveal.js</title>
 
-		<link rel="stylesheet" href="css/reset.css">
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css">
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/monokai.css">
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/monokai.css">
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown>
+          <textarea data-template>
+            ## Working With Terraform
+            * Jake Faris
+          </textarea>
+        </section>
 
-		<script src="js/reveal.js"></script>
+        <section data-markdown>
+          <textarea data-template>
+            ## Terraform
+            * Infrastructure As Code
+            * Deploys Changes
+            * Reproducible
+          </textarea>
+        </section>
 
-		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
-			Reveal.initialize({
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true }
-				]
-			});
-		</script>
-	</body>
+        <section data-markdown>
+          <textarea data-template>
+            ## Infrastructure As Code
+            * DSL describes each "resource"
+            * Bundled resources packaged into modules
+            * Committed to Github
+          </textarea>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ## Deploys Changes
+            * CLI tools track differences in infra and TF configuration
+            * Change AWS setup right from terminal
+          </textarea>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ## Reproducible
+            * Multiple Stacks can use same Modules
+            * Eg, `ecs-service` module shared by all backstage apps
+          </textarea>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ## How Do We Use Terraform at CNE?
+          </textarea>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            * ECS Services (Backstage)
+            * ECS Workers (???)
+            * MongoDB
+          </textarea>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ## What does it take to create an ECS Service?
+            * Load Balancers, Target Groups, Security Groups
+            * Intricate trail of ports and IPs
+            * My point is: it's complicated!!!
+          </textarea>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ## Terraform allows us to document our infrastructure's setup
+          </textarea>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ## Let's take a look
+            [ screenshot ]
+          </textarea>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ## Example: Environment Variables
+            * `ecs-service` vars in Task Definition
+            * [ screenshot ]
+          </textarea>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ## Making Changes
+            * `terraform apply`
+          </textarea>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ## What does it take to create an ECS Service?
+            * Load Balancers, Target Groups, Security Groups
+            * Intricate trail of ports and IPs
+            * My point is: it's complicated!!!
+          </textarea>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ## What does it take to create an ECS Service?
+            * Load Balancers, Target Groups, Security Groups
+            * Intricate trail of ports and IPs
+            * My point is: it's complicated!!!
+          </textarea>
+        </section>
+      </div>
+    </div>
+
+    <script src="js/reveal.js"></script>
+
+    <script>
+      // More info about config & dependencies:
+      // - https://github.com/hakimel/reveal.js#configuration
+      // - https://github.com/hakimel/reveal.js#dependencies
+      Reveal.initialize({
+        dependencies: [
+          { src: 'plugin/markdown/marked.js' },
+          { src: 'plugin/markdown/markdown.js' },
+          { src: 'plugin/notes/notes.js', async: true },
+          { src: 'plugin/highlight/highlight.js', async: true }
+        ]
+      });
+    </script>
+  </body>
 </html>
