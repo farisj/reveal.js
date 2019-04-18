@@ -53,7 +53,7 @@
         <section data-markdown>
           <textarea data-template>
             ## Deploys Changes
-            * CLI tools track differences in infra and TF configuration
+            * CLI tracks differences in infra & TF configuration
             * Change AWS setup right from terminal
           </textarea>
         </section>
@@ -62,7 +62,7 @@
           <textarea data-template>
             ## Reproducible
             * Multiple Stacks can use same Modules
-            * Eg, `ecs-service` module shared by all backstage apps
+            * Eg, `ecs-service` module shared by backstage apps
           </textarea>
         </section>
 
@@ -74,18 +74,20 @@
 
         <section data-markdown>
           <textarea data-template>
-            * ECS Services (Backstage)
-            * ECS Workers (???)
+            * ECS Clusters
+            * ECS Services (Our Applications)
             * MongoDB
           </textarea>
         </section>
 
         <section data-markdown>
           <textarea data-template>
-            ## What does it take to create an ECS Service?
+            ### What does it take to create an ECS Service?
             * Load Balancers, Target Groups, Security Groups
+            * Task Definitions, Service Definitions
             * Intricate trail of ports and IPs
-            * My point is: it's complicated!!!
+
+            * It's complicated!!!
           </textarea>
         </section>
 
@@ -98,15 +100,61 @@
         <section data-markdown>
           <textarea data-template>
             ## Let's take a look
-            [ screenshot ]
+            ```
+            // stacks/production/backstage-api-production/main.tf
+            module "backstage-api-prod" {
+              name_prefix = "backstage-api-production"
+              source = "../../../modules/ecs-service"
+              container_port = 8080
+              host_port = 43942
+              aname = "backstage-api"
+              health_path = "/healthcheck"
+              ecr_repo = "ecr-backstage-api-production"
+            }
+            ```
+
+            ```
+            // stacks/non-production/backstage-api-staging/main.tf
+            module "backstage-api-staging" {
+              name_prefix = "backstage-api-staging"
+              source = "../../../modules/ecs-service"
+              container_port = 8080
+              host_port = 39857
+              aname = "backstage-api-staging"
+              health_path = "/healthcheck"
+              ecr_repo = "ecr-backstage-api-staging"
+            }
+            ```
           </textarea>
         </section>
 
         <section data-markdown>
           <textarea data-template>
-            ## Example: Environment Variables
-            * `ecs-service` vars in Task Definition
-            * [ screenshot ]
+            ## Let's take a look
+            ```
+            // modules/ecs-service
+            resource "aws_security_group" "main" {
+              name_prefix = "${var.name_prefix}-"
+            }
+
+            resource "aws_alb_target_group" "main" {
+              name = "tg-${var.name_prefix}"
+              port = "${var.host_port}"
+            }
+
+            resource "aws_route53_record" "www" {
+              name    = "${var.aname}"
+              type    = "A"
+            }
+            ```
+          </textarea>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ## Making Changes
+            * Ex. Renaming Backstage to Frontstage
+            <img src="gitdiff.png" />
           </textarea>
         </section>
 
@@ -117,21 +165,28 @@
           </textarea>
         </section>
 
+        <section>
+          <img src="tfplan.png" />
+        </section>
+
+        <section>
+          <img src="tfdiff.png" />
+        </section>
+
         <section data-markdown>
           <textarea data-template>
-            ## What does it take to create an ECS Service?
-            * Load Balancers, Target Groups, Security Groups
-            * Intricate trail of ports and IPs
-            * My point is: it's complicated!!!
+            ## Current Drawbacks
+            * Repository tracking secrets
+              * Solution: Use Vault
+            * `terraform apply` can be run with non-committed code
+              * Source of truth can be ambiguous if not cautious
           </textarea>
         </section>
 
         <section data-markdown>
           <textarea data-template>
-            ## What does it take to create an ECS Service?
-            * Load Balancers, Target Groups, Security Groups
-            * Intricate trail of ports and IPs
-            * My point is: it's complicated!!!
+            ## Questions?
+            ## Thank You!
           </textarea>
         </section>
       </div>
